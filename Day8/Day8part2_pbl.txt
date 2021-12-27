@@ -1,0 +1,105 @@
+DECIFRE WHIRE-DISPLAY CODIFICATION
+Abbreviations:
+	-itc: in this case
+	-saidstring: string we are treating/corresponds to our if or function search
+
+INPUT: 10 numbers, from 0 to 9, in random order. Each of the represented by letters from a to g.
+Each letter is a seventh of the display.
+The original display should be fromed like this:
+ aaaa
+b    c
+b    c
+ dddd
+e    f
+e    f
+ gggg
+
+We have to find to what seventh of the display the mismatched letters correspond. We'll redefine those parts as:
+TOP (a), TLEFT (b), TRIGHT (c), MIDDLE (d), BLEFT (e), BRIGHT (f), BOTTOM (g).
+
+For now the only way we can differentiate our numbers 0-9 is by the number of letters/segments they're represented by:
+1: 2 letters
+2/3/5: 5 letters
+4: 4 letters
+6/9/0: 6 letters
+7: 3 letters
+8: 7 letters
+
+Our example will be the following:
+
+acedgfb cdfbe gcdfa fbcad dab cefabd cdfgeb eafb cagedb ab
+
+Let's start identifying the segments of the numbers we're sure of:
+	We'll use a function to count how many letters each number, saved as a string, has.
+	Call said function, and identify as ONE the number formed of two letters:
+		if(strlen==2)
+			ONE= said string  //itc it's 'ab'
+	We'll now look at numbers 6 9 and 0:
+		if(strlen==6) //which are 'cefABd', 'cdfgeB', 'cAgedB';
+			if( ONE[1] || ONE[2] are in any of the the 3 strings with legth 6) //itc 'cdfgeB'
+			//We'll need to do another function to read the content of a string 
+			and compare it to another string, it will be used pretty much at every 
+			single step, let's call it 'Compare'
+			SIX= saidstring //itc 'cdfgeb'
+			//in fact one and six only share one segment in common, the bottom right one
+			BRIGHT= Compare the letter ONE and SIX have in common 'B'
+		By obvious reasoning, if ONE is made by A and B being TRIGHT and BRIGHT, and B is BRIGHT,
+		//TRIGHT= 'a'
+We now now the two right segments, let's find the central ones.
+	We'll save seven to use it later:
+	if(strlen==3)
+		SEVEN= saidstring //'dab'
+	We'll look for 2 3 and 5, whic are designed by 5 letters:
+	if(strlen==5) //itc 'cdfBe', 'gcdfA', 'fBcAd'
+		Compare said string and ONE
+		if( ONE[1] && ONE[2] are in said string)
+		THREE= saidstring //itc 'fbcad'
+		Compare again, this time SEVEN and THREE. The letter they have in common that's not in ONE is TOP
+		//itc 'dab' and 'fbcad', the letter they have in common apart from a and b is D
+		//TOP= 'd'
+
+We'll back up for a second, to get the MIDDlE and BOTTOM we'll be comparing THREE to ZERO and NINE, which we haven't identified yet.
+	if(strlen==6 && saidstring=!SIX) //'cefabd', 'cagedb'
+	Compare THREE and saidstring
+		if(all of THREE's components are in saidstring)
+		NINE= saidstring //'cefabd'
+		else()
+		ZERO= saidstring //'cagedb'
+		Compare ZERO and THREE, the letter they have in common that isn't in SEVEN in BOTTOM
+		//BOTTOM= 'c'
+		Compare again, the only letter that NINE and THREE have in common that isn't in ZERO is MIDDLE
+		//MIDDLE= 'f'
+
+Lastly, to find the segments on the left we go back to taking in consideration 2 3 and 5
+	if(strlen==5 && saidstring=!THREE)
+		if( Compare saidstring, if TRIGHT is present)
+		TWO= saidstring //'gcdfa'
+		else(will be BRIGHT)
+		FIVE= saidstring //'cdfbe'
+		Compare: the only letter that is present in FIVE but not in ONE and THREE is TLEFT
+		//TLEFT= 'e'
+		Compare: the only letter that is present in TWO but not in ONE and THREE is BLEFT
+		//BLEFT= 'g'
+
+NICE!
+You have now all your mismatched display reassigned.
+With the display decoded you now know the 4 number cifre the problem proposed.
+
+Just a reminder to understand what number is what by the segments it's made of:
+-ONE: TRIGHT, BRIGHT; (or 2 letters)
+-TWO: TOP, TRIGHT, MIDDLE, BLEFT, BOTTOM;
+-THREE: TOP, TRIGHT, MIDDLE, BRIGHT, BOTTOM;
+-FOUR: TLEFT, MIDDLE, TRIGHT, BRIGHT; (or 4 letters)
+-FIVE: TOP, TLEFT, MIDDLE, BRIGHT, BOTTOM;
+-SIX: TOP, TLEFT, MIDDLE, BLEFT, BRIGHT, BOTTOM; 
+-SEVEN: TOP, TRIGHT, BRIGHT; (or 3 letters)
+-EIGHT: TOP, TLEFT, TRIGHT, MIDDLE, BLEFT, BRIGHT, BOTTOM; (or 7 letters)
+-NINE: TOP, TLEFT, TRIGHT, MIDDLE, BRIGHT, BOTTOM;
+-ZERO: TOP, TLEFT, TRIGHT, BLEFT, BRIGHT, BOTTOM;
+
+Thanks bye :).
+
+		
+		
+
+			

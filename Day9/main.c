@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <stdbool.h>
 
 void ThrowError(const char* message);
 int GetXLen(char* path);
@@ -8,6 +9,8 @@ int GetYLen(char* path);
 int** CreateArray(int x, int y);
 void FreeArray(int** array, int y);
 void PrintArray(int** array, int x, int y);
+bool IsLowPoint(int row, int col, int x_len, int y_len, int** array);
+bool PositionExists(int row, int col, int x_len, int y_len);
 
 int main(int argc, char** argv) {
 
@@ -32,7 +35,17 @@ int main(int argc, char** argv) {
         getc(fp);
     }
     fclose(fp);
-    PrintArray(array, x_len, y_len);
+    int sum = 0;
+
+    for (int row = 0; row < y_len; row++) {
+        for (int col = 0; col < x_len; col++) {
+            if (IsLowPoint(row, col, x_len, y_len, array)) {
+                sum += array[row][col] + 1;
+            }
+        }
+    }
+
+    printf("=> %d\n", sum);
 
     FreeArray(array, y_len);
     exit(EXIT_SUCCESS);
